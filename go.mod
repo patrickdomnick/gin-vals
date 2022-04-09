@@ -2,7 +2,10 @@ module gitlab.com/PatrickDomnick/gin-vals
 
 go 1.17
 
-require github.com/variantdev/vals v0.16.0
+require (
+	github.com/gin-gonic/gin v1.7.7
+	github.com/variantdev/vals v0.16.0
+)
 
 require (
 	cloud.google.com/go v0.81.0 // indirect
@@ -29,7 +32,6 @@ require (
 	github.com/form3tech-oss/jwt-go v3.2.2+incompatible // indirect
 	github.com/fujiwara/tfstate-lookup v0.4.2 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
-	github.com/gin-gonic/gin v1.7.7 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator/v10 v10.10.1 // indirect

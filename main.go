@@ -57,5 +57,5 @@ func main() {
 		c.JSON(200, val)
 	})
 
-	r.Run("localhost:9090")
+	r.Run("0.0.0.0:9090")
 }

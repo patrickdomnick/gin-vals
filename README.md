@@ -8,7 +8,7 @@ Vals in a Gin Webserver
 
 ```yaml
 test:
-  image: busybox:latest
+  image: bitnami/bitnami-shell:latest
   services:
     - name: patrickdomnick/gin-vals:latest
       alias: ginvals
@@ -20,7 +20,7 @@ test:
 
 ```yaml
 test:
-  image: busybox:latest
+  image: bitnami/bitnami-shell:latest
   services:
     - name: patrickdomnick/gin-vals:latest
       alias: ginvals
