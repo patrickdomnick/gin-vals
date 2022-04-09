@@ -5,6 +5,7 @@ variables:
 stages:
   - build
   - docker
+  - testing
   - publish
 
 .docker:
@@ -224,3 +225,17 @@ gorelease_tag:
   rules:
     - if: $CI_COMMIT_TAG
   needs: ["Package tag armv7 to Container🐳"]
+
+
+# Testing
+test_get:
+  stage: testing
+  image: busybox:latest
+  services:
+    - name: registry.gitlab.com/patrickdomnick/gin-vals:latest-amd64
+      alias: ginvals
+  script:
+    - export secret=$(curl -X GET "http://ginvals:9090/ref+echo://foo/bar")
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+  needs: ["Package latest amd64 to Container🐳"]
