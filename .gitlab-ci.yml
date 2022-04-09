@@ -1,0 +1,226 @@
+variables:
+  DOCKER_REGISTRY: registry.hub.docker.com
+  DOCKER_REGISTRY_IMAGE: gin-vals
+
+stages:
+  - build
+  - docker
+  - publish
+
+.docker:
+  stage: docker
+  image:
+    name: gcr.io/kaniko-project/executor:v1.7.0-debug
+    entrypoint: [""]
+  script:
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - pform=$(echo $PLATFORM | awk '{ print substr ($0, 7 ) }') # Remove Linux
+    - pform=$(echo $pform |sed 's/\//-/g') # Replace / with -
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --build-arg PLATFORM=$PLATFORM --customPlatform=$PLATFORM --destination $CI_REGISTRY_IMAGE:$TAG-$pform
+
+.publish:
+  stage: publish
+  image:
+    name: gcr.io/go-containerregistry/crane:debug
+    entrypoint: [""]
+  script:
+    - crane auth login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - crane auth login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASSWORD $DOCKER_REGISTRY
+    - pform=$(echo $PLATFORM | awk '{ print substr ($0, 7 ) }') # Remove Linux
+    - pform=$(echo $pform |sed 's/\//-/g') # Replace / with -
+    - crane copy $CI_REGISTRY_IMAGE:$TAG-$pform $DOCKER_REGISTRY/$DOCKER_REGISTRY_USER/$DOCKER_REGISTRY_IMAGE:$TAG-$pform
+
+# Build Go Binaries for all Archs
+gorelease_latest:
+  stage: build
+  image:
+    name: goreleaser/goreleaser
+    entrypoint: ['']
+  variables:
+    GIT_DEPTH: 0
+  script:
+    - goreleaser build --snapshot
+  artifacts:
+    paths:
+      - dist/
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
+gorelease_tag:
+  stage: build
+  image:
+    name: goreleaser/goreleaser
+    entrypoint: ['']
+  variables:
+    GIT_DEPTH: 0
+  script:
+    - goreleaser release
+  artifacts:
+    paths:
+      - dist/
+  rules:
+    - if: $CI_COMMIT_TAG
+
+# AMD64
+"Package latest amd64 to Container🐳":
+  variables:
+    TAG: latest
+    PLATFORM: "linux/amd64"
+  needs: ["gorelease_latest"]
+  extends:
+    - .docker
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
+"Publish latest amd64 to Dockerhub☁ ":
+  variables:
+    TAG: latest
+    PLATFORM: "linux/amd64"
+  extends:
+    - .publish
+  needs: ["Package latest amd64 to Container🐳"]
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
+"Package tag amd64 to Container🐳":
+  variables:
+    TAG: $CI_COMMIT_TAG
+    PLATFORM: "linux/amd64"
+  needs: ["gorelease_tag"]
+  extends:
+    - .docker
+  rules:
+    - if: $CI_COMMIT_TAG
+
+"Publish tag amd64 to Dockerhub☁":
+  variables:
+    TAG: $CI_COMMIT_TAG
+    PLATFORM: "linux/amd64"
+  extends:
+    - .publish
+  rules:
+    - if: $CI_COMMIT_TAG
+  needs: ["Package tag amd64 to Container🐳"]
+
+# ARM64
+"Package latest arm64 to Container🐳":
+  variables:
+    TAG: latest
+    PLATFORM: "linux/arm64"
+  needs: ["gorelease_latest"]
+  extends:
+    - .docker
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
+"Publish latest arm64 to Dockerhub☁ ":
+  variables:
+    TAG: latest
+    PLATFORM: "linux/arm64"
+  extends:
+    - .publish
+  needs: ["Package latest arm64 to Container🐳"]
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
+"Package tag arm64 to Container🐳":
+  variables:
+    TAG: $CI_COMMIT_TAG
+    PLATFORM: "linux/arm64"
+  needs: ["gorelease_tag"]
+  extends:
+    - .docker
+  rules:
+    - if: $CI_COMMIT_TAG
+
+"Publish tag arm64 to Dockerhub☁":
+  variables:
+    TAG: $CI_COMMIT_TAG
+    PLATFORM: "linux/arm64"
+  extends:
+    - .publish
+  rules:
+    - if: $CI_COMMIT_TAG
+  needs: ["Package tag arm64 to Container🐳"]
+
+# ARM v6
+"Package latest armv6 to Container🐳":
+  variables:
+    TAG: latest
+    PLATFORM: "linux/arm/v6"
+  needs: ["gorelease_latest"]
+  extends:
+    - .docker
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
+"Publish latest armv6 to Dockerhub☁ ":
+  variables:
+    TAG: latest
+    PLATFORM: "linux/arm/v6"
+  extends:
+    - .publish
+  needs: ["Package latest armv6 to Container🐳"]
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
+"Package tag armv6 to Container🐳":
+  variables:
+    TAG: $CI_COMMIT_TAG
+    PLATFORM: "linux/arm/v6"
+  needs: ["gorelease_tag"]
+  extends:
+    - .docker
+  rules:
+    - if: $CI_COMMIT_TAG
+
+"Publish tag armv6 to Dockerhub☁":
+  variables:
+    TAG: $CI_COMMIT_TAG
+    PLATFORM: "linux/arm/v6"
+  extends:
+    - .publish
+  rules:
+    - if: $CI_COMMIT_TAG
+  needs: ["Package tag armv6 to Container🐳"]
+
+# ARM v7
+"Package latest armv7 to Container🐳":
+  variables:
+    TAG: latest
+    PLATFORM: "linux/arm/v7"
+  needs: ["gorelease_latest"]
+  extends:
+    - .docker
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
+"Publish latest armv7 to Dockerhub☁ ":
+  variables:
+    TAG: latest
+    PLATFORM: "linux/arm/v7"
+  extends:
+    - .publish
+  needs: ["Package latest armv7 to Container🐳"]
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
+"Package tag armv7 to Container🐳":
+  variables:
+    TAG: $CI_COMMIT_TAG
+    PLATFORM: "linux/arm/v7"
+  needs: ["gorelease_tag"]
+  extends:
+    - .docker
+  rules:
+    - if: $CI_COMMIT_TAG
+
+"Publish tag armv7 to Dockerhub☁":
+  variables:
+    TAG: $CI_COMMIT_TAG
+    PLATFORM: "linux/arm/v7"
+  extends:
+    - .publish
+  rules:
+    - if: $CI_COMMIT_TAG
+  needs: ["Package tag armv7 to Container🐳"]
