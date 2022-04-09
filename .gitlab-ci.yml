@@ -19,7 +19,7 @@ stages:
     - pform=$(echo $pform |sed 's/\//-/g') # Replace / with -
     - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --build-arg PLATFORM=$PLATFORM --customPlatform=$PLATFORM --destination $CI_REGISTRY_IMAGE:$TAG-$pform
 
-docker_default:
+.docker_default:
   stage: docker
   image:
     name: gcr.io/kaniko-project/executor:v1.7.0-debug
