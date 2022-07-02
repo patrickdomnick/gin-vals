@@ -26,7 +26,7 @@ stages:
     entrypoint: [""]
   script:
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --build-arg PLATFORM=$PLATFORM --customPlatform=$PLATFORM --destination $CI_REGISTRY_IMAGE:$TAG
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --build-arg PLATFORM=$PLATFORM --customPlatform=$PLATFORM --destination $CI_REGISTRY_IMAGE:$TAG --destination $CI_REGISTRY_IMAGE:$CI_PIPELINE_IID
 
 .publish:
   stage: publish
@@ -65,6 +65,7 @@ gorelease_latest:
       - dist/
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^renovate/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
 
 gorelease_tag:
   stage: build
@@ -111,6 +112,7 @@ gorelease_tag:
     - .docker_default
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^renovate/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
 
 "Publish latest default to Dockerhub☁ ":
   variables:
@@ -290,20 +292,21 @@ test_get:
   stage: testing
   image: bitnami/bitnami-shell:latest
   services:
-    - name: registry.gitlab.com/patrickdomnick/gin-vals:latest
+    - name: registry.gitlab.com/patrickdomnick/gin-vals:$CI_PIPELINE_IID
       alias: ginvals
   script:
     - export secret=$(curl -X GET "http://ginvals:9090/ref+echo://foo/bar")
     - echo $secret
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^renovate/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
   needs: ["Package latest default to Container🐳"]
 
 test:
   stage: testing
   image: bitnami/bitnami-shell:latest
   services:
-    - name: registry.gitlab.com/patrickdomnick/gin-vals:latest
+    - name: registry.gitlab.com/patrickdomnick/gin-vals:$CI_PIPELINE_IID
       alias: ginvals
   script:
     - |
@@ -311,4 +314,5 @@ test:
     - echo $secretJson
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^renovate/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
   needs: ["Package latest default to Container🐳"]
