@@ -207,47 +207,6 @@ gorelease_tag:
     - if: $CI_COMMIT_TAG
   needs: ["Package tag arm64 to Container🐳"]
 
-# ARM v6
-"Package latest armv6 to Container🐳":
-  variables:
-    TAG: latest
-    PLATFORM: "linux/arm/v6"
-  needs: ["gorelease_latest"]
-  extends:
-    - .docker
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-
-"Publish latest armv6 to Dockerhub☁ ":
-  variables:
-    TAG: latest
-    PLATFORM: "linux/arm/v6"
-  extends:
-    - .publish
-  needs: ["Package latest armv6 to Container🐳"]
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-
-"Package tag armv6 to Container🐳":
-  variables:
-    TAG: $CI_COMMIT_TAG
-    PLATFORM: "linux/arm/v6"
-  needs: ["gorelease_tag"]
-  extends:
-    - .docker
-  rules:
-    - if: $CI_COMMIT_TAG
-
-"Publish tag armv6 to Dockerhub☁":
-  variables:
-    TAG: $CI_COMMIT_TAG
-    PLATFORM: "linux/arm/v6"
-  extends:
-    - .publish
-  rules:
-    - if: $CI_COMMIT_TAG
-  needs: ["Package tag armv6 to Container🐳"]
-
 # ARM v7
 "Package latest armv7 to Container🐳":
   variables:
