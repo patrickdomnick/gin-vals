@@ -3,8 +3,8 @@ module gitlab.com/PatrickDomnick/gin-vals
 go 1.17
 
 require (
-	github.com/variantdev/vals v0.18.0
 	github.com/gin-gonic/gin v1.8.1
+	github.com/variantdev/vals v0.18.0
 )
 
 require (
