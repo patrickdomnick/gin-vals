@@ -12,9 +12,9 @@ Now we simply need to make it accessible via REST with the Gin [Web Framework](h
 
 Because we are using Vals as our configuration and secrets tool, we can simply refer to its [documentation](https://github.com/variantdev/vals#supported-backends):
 
-- Vault: `ref+vault://PATH/TO/KVBACKEND[?address=VAULT_ADDR:PORT&token_file=PATH/TO/FILE&token_env=VAULT_TOKEN]#/fieldkey`
-- AWS Secrets Manager: `ref+awssecrets://PATH/TO/SECRET[?region=REGION&version_stage=STAGE&version_id=ID]`
-- GCP Secrets Manager: `ref+gcpsecrets://PROJECT/SECRET[?version=VERSION]`
+- Vault: `ref+vault://PATH/TO/KVBACKEND%23/fieldkey`
+- AWS Secrets Manager: `ref+awssecrets://PATH/TO/SECRET%23/fieldkey`
+- GCP Secrets Manager: `ref+gcpsecrets://PROJECT/SECRET`
 - and many more...
 
 I will use the simple `echo` method to display some possible methods of using Gin Vals.
