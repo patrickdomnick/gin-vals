@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"unicode/utf8"
 
 	"github.com/gin-gonic/gin"
@@ -30,10 +31,11 @@ func main() {
 			"value": fixedRef,
 		})
 		if err != nil {
-			c.Error(err)
+			c.String(http.StatusBadRequest, err.Error())
+		} else {
+			// Return Secret as String
+			c.String(http.StatusOK, string(fmt.Sprintf("%v", val["value"])))
 		}
-		// Return Secret as String
-		c.String(200, string(fmt.Sprintf("%v", val["value"])))
 	})
 
 	// One Global Route for JSON Value retrieval
@@ -51,10 +53,14 @@ func main() {
 		// Get Secret via Vals
 		val, err := runtime.Eval(ref)
 		if err != nil {
-			c.Error(err)
+			errorJson := map[string]interface{}{
+				"error": err.Error(),
+			}
+			c.AbortWithStatusJSON(http.StatusBadRequest, errorJson)
+		} else {
+			// Return Secret as String
+			c.JSON(http.StatusOK, val)
 		}
-		// Return Secret as String
-		c.JSON(200, val)
 	})
 
 	r.Run("0.0.0.0:9090")
