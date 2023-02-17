@@ -8,10 +8,8 @@ ports:
   - port: 9090
     onOpen: open-preview
 tasks:
-  - init: >
-      go build -o gin-vals
-    command: >
-      ./gin-vals
+  - command: >
+      go run main.go
 github:
     prebuilds:
         pullRequestsFromForks: true
