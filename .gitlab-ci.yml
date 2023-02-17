@@ -9,12 +9,12 @@ stages:
   - publish
 
 release_weekly:
-  stage: publish
+  stage: .pre
   image: node:18-alpine
   script:
     - npx -p @semantic-release/changelog -p @semantic-release/exec -p @semantic-release/git semantic-release
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "schedule"
+  # rules:
+  #   - if: $CI_PIPELINE_SOURCE == "schedule"
 
 .docker:
   stage: docker
