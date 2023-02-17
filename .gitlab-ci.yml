@@ -12,6 +12,7 @@ release_weekly:
   stage: .pre
   image: node:18-alpine
   script:
+    - apk update && apk upgrade && apk add --no-cache bash git openssh
     - npx -p @semantic-release/changelog -p @semantic-release/exec -p @semantic-release/git semantic-release
   # rules:
   #   - if: $CI_PIPELINE_SOURCE == "schedule"
