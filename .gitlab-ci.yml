@@ -8,6 +8,14 @@ stages:
   - testing
   - publish
 
+release_weekly:
+  needs: []
+  image: node:18-alpine
+  script:
+    - npx -p @semantic-release/changelog -p @semantic-release/exec -p @semantic-release/git semantic-release
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+
 .docker:
   stage: docker
   image:
