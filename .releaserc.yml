@@ -1,3 +1,4 @@
+branch: main
 preset: angular
 plugins:
   - "@semantic-release/commit-analyzer"
