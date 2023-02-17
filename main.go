@@ -6,7 +6,7 @@ import (
 	"unicode/utf8"
 
 	"github.com/gin-gonic/gin"
-	"github.com/variantdev/vals"
+	"github.com/helmfile/vals"
 )
 
 func main() {

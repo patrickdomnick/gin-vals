@@ -54,7 +54,7 @@ stages:
 gorelease_latest:
   stage: build
   image:
-    name: goreleaser/goreleaser
+    name: goreleaser/goreleaser:v1.15.2
     entrypoint: ['']
   variables:
     GIT_DEPTH: 0
@@ -71,7 +71,7 @@ gorelease_latest:
 gorelease_tag:
   stage: build
   image:
-    name: goreleaser/goreleaser
+    name: goreleaser/goreleaser:v1.15.2
     entrypoint: ['']
   variables:
     GIT_DEPTH: 0

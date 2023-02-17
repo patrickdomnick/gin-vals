@@ -50,7 +50,10 @@ test:
 
 ## Roadmap
 
-- Automated Testing
+- Improved Automated Testing
+- Improve Documentation
+- Switch to Chainguard Image
+- Variable Ports
 
 ## Contribution
 
