@@ -72,8 +72,7 @@ gorelease_latest:
     paths:
       - dist/
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-    - if: $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE != "schedule"
     - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^renovate/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
     - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^feature/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
 
@@ -101,8 +100,7 @@ gorelease_tag:
   extends:
     - .docker
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-    - if: $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE != "schedule"
 
 "Publish latest amd64 to Dockerhub☁ ":
   variables:
@@ -112,8 +110,7 @@ gorelease_tag:
     - .publish
   needs: ["Package latest amd64 to Container🐳"]
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-    - if: $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE != "schedule"
 
 "Package latest default to Container🐳":
   variables:
@@ -123,8 +120,7 @@ gorelease_tag:
   extends:
     - .docker_default
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-    - if: $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE != "schedule"
     - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^renovate/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
     - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^feature/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
 
@@ -136,8 +132,7 @@ gorelease_tag:
     - .publish_default
   needs: ["Package latest default to Container🐳"]
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-    - if: $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE != "schedule"
 
 "Package tag amd64 to Container🐳":
   variables:
@@ -188,8 +183,7 @@ gorelease_tag:
   extends:
     - .docker
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-    - if: $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE != "schedule"
 
 "Publish latest arm64 to Dockerhub☁ ":
   variables:
@@ -199,8 +193,7 @@ gorelease_tag:
     - .publish
   needs: ["Package latest arm64 to Container🐳"]
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-    - if: $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE != "schedule"
 
 "Package tag arm64 to Container🐳":
   variables:
@@ -231,8 +224,7 @@ gorelease_tag:
   extends:
     - .docker
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-    - if: $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE != "schedule"
 
 "Publish latest armv7 to Dockerhub☁ ":
   variables:
@@ -242,8 +234,7 @@ gorelease_tag:
     - .publish
   needs: ["Package latest armv7 to Container🐳"]
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-    - if: $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE != "schedule"
 
 "Package tag armv7 to Container🐳":
   variables:
@@ -263,7 +254,6 @@ gorelease_tag:
     - .publish
   rules:
     - if: $CI_COMMIT_TAG
-    - if: $CI_PIPELINE_SOURCE != "schedule"
   needs: ["Package tag armv7 to Container🐳"]
 
 # Testing
