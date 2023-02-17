@@ -1,12 +1,13 @@
 branches:
   - main
 preset: angular
+tagFormat: ${version}
+
 plugins:
   - "@semantic-release/commit-analyzer"
   - "@semantic-release/release-notes-generator"
   - "@semantic-release/changelog"
   - "@semantic-release/git"
   - - "@semantic-release/exec"
-    - publishCmd: |
-        echo "${nextRelease.notes}" > /tmp/release-notes.md
-        goreleaser release --release-notes /tmp/release-notes.md --clean
+    - message: |
+        chore(release): ${nextRelease.version} \n\n${nextRelease.notes}
