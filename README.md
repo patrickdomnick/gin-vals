@@ -48,12 +48,15 @@ test:
     - export secretJson=$(curl -H 'Content-Type: application/json' -d '{"foo": "ref+echo://foo/bar","bar": "ref+echo://bar/foo"}' -X POST "http://ginvals:9090")
 ```
 
+## Changing the default Port
+
+Set Environment Variable `GINVALS_PORT` to a Port-Number of your choosing.
+Will default to 9090.
+
 ## Roadmap
 
 - Improved Automated Testing
 - Improve Documentation
-- Switch to Chainguard Image
-- Variable Ports
 
 ## Contribution
 
@@ -63,6 +66,7 @@ TODO
 
 - [Vals](https://github.com/variantdev/vals)
 - [Gin](https://github.com/gin-gonic/gin)
+- [HenrySachs](https://gitlab.com/DerAstronaut)
 
 ## License
 

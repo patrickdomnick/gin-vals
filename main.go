@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"unicode/utf8"
 
 	"github.com/gin-gonic/gin"
@@ -63,5 +64,10 @@ func main() {
 		}
 	})
 
-	r.Run("0.0.0.0:9090")
+	port := os.Getenv("GINVALS_PORT")
+	if len(port) == 0 {
+		port = "9090"
+	}
+	run := fmt.Sprintf("0.0.0.0:%s", port)
+	r.Run(run)
 }
