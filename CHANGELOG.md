@@ -30,6 +30,22 @@
 * add port overwrite [ci skip] ([841cf65](https://gitlab.com/PatrickDomnick/gin-vals/commit/841cf6563aa460fe2ff1225ba5d35f1b1d64c053))
 * use chainguard ([efa5071](https://gitlab.com/PatrickDomnick/gin-vals/commit/efa50711ec9c79470a3c2350a15a4b304e9ffe19))
 
+# [1.1.0](https://gitlab.com/PatrickDomnick/gin-vals/compare/1.0.3...1.1.0) (2023-02-17)
+
+
+### Bug Fixes
+
+* branches ([c6ff09b](https://gitlab.com/PatrickDomnick/gin-vals/commit/c6ff09befe7ff70aae394d4666a36613c75cba27))
+* remove build binary ([5e0beaf](https://gitlab.com/PatrickDomnick/gin-vals/commit/5e0beaf883a58925b6092ddaa762dbd06336ddc9))
+* use go run ([020473c](https://gitlab.com/PatrickDomnick/gin-vals/commit/020473c2058edb976978ae838726d9674bb642b2))
+
+
+### Features
+
+* add gitpod ([79eaebe](https://gitlab.com/PatrickDomnick/gin-vals/commit/79eaebe7c69e4ba6416c63abfd03ab73e19ac49c))
+* add port overwrite [ci skip] ([841cf65](https://gitlab.com/PatrickDomnick/gin-vals/commit/841cf6563aa460fe2ff1225ba5d35f1b1d64c053))
+* use chainguard ([efa5071](https://gitlab.com/PatrickDomnick/gin-vals/commit/efa50711ec9c79470a3c2350a15a4b304e9ffe19))
+
 # 1.0.0 (2023-02-17)
 
 
