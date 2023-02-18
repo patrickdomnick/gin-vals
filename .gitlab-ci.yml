@@ -14,8 +14,8 @@ release_weekly:
   script:
     - apk update && apk upgrade && apk add --no-cache bash git openssh
     - npx -p @semantic-release/changelog -p @semantic-release/exec -p @semantic-release/git semantic-release
-  # rules:
-  #   - if: $CI_PIPELINE_SOURCE == "schedule"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
 
 .docker:
   stage: docker
@@ -268,8 +268,7 @@ test_get:
     - export secret=$(curl -X GET "http://ginvals:9090/ref+echo://foo/bar")
     - echo $secret
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-    - if: $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE != "schedule"
     - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^renovate/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
     - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^feature/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
   needs: ["Package latest default to Container🐳"]
@@ -285,8 +284,7 @@ test:
       export secretJson=$(curl -H "Content-Type: application/json" -d '{"foo": "ref+echo://foo/bar","bar": "ref+echo://bar/foo"}' -X POST "http://ginvals:9090")
     - echo $secretJson
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-    - if: $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE != "schedule"
     - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^renovate/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
     - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^feature/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
   needs: ["Package latest default to Container🐳"]
